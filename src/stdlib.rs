@@ -20,11 +20,12 @@ pub const INTERNALS: (&str, &str) = (
     "<stdlib/internals>",
     include_str!("../stdlib/internals.ncl"),
 );
+pub const COMPAT: (&str, &str) = ("<stdlib/compat>", include_str!("../stdlib/compat.ncl"));
 
 /// Return the list `(name, source_code)` of all the stdlib modules.
 pub fn modules() -> Vec<(&'static str, &'static str)> {
     vec![
-        BUILTIN, CONTRACT, ARRAY, RECORD, STRING, NUM, FUNCTION, INTERNALS,
+        BUILTIN, CONTRACT, ARRAY, RECORD, STRING, NUM, FUNCTION, INTERNALS, COMPAT,
     ]
 }
 
