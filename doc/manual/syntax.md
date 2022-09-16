@@ -419,8 +419,9 @@ Examples:
 ```
 
 ## Typing
-To give a type to a value, we write it with `< value > : < type >`.
-More information on typing in the relevant document.
+
+To give a type to a value, we write it with `< value > : < type >`. More
+information on typing in the [relevant document](./typing.md).
 
 Examples:
 ```nickel
