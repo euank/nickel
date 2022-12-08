@@ -1,5 +1,6 @@
 //! Source cache.
 
+use crate::util::HashMapExt;
 use crate::error::{Error, ImportError, ParseError, ParseErrors, TypecheckError};
 use crate::parser::lexer::Lexer;
 use crate::position::TermPos;
@@ -14,7 +15,6 @@ use crate::{eval, parser, transform};
 use codespan::{FileId, Files};
 use io::Read;
 use std::collections::hash_map;
-use std::collections::{HashMap, HashSet};
 use std::ffi::{OsStr, OsString};
 use std::fs;
 use std::io;
@@ -22,6 +22,10 @@ use std::path::{Path, PathBuf};
 use std::result::Result;
 use std::time::SystemTime;
 use void::Void;
+use rustc_hash::{
+    FxHashMap as HashMap,
+    FxHashSet as HashSet,
+};
 
 /// Supported input formats.
 #[derive(Clone, Copy, Eq, Debug, PartialEq)]

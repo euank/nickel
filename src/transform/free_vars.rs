@@ -4,17 +4,18 @@
 //! the recursive fields that actually appear in the definition of each field when computing the
 //! fixpoint.
 use crate::{
+    util::HashMapExt,
     destruct::{Destruct, Match},
     identifier::Ident,
     term::{FieldDeps, RecordDeps, RichTerm, SharedTerm, StrChunk, Term},
     types::{RecordRowF, RecordRows, RecordRowsF, TypeF, Types},
 };
 
-use std::collections::{HashMap, HashSet};
+use rustc_hash::{FxHashMap as HashMap, FxHashSet as HashSet};
 
 /// Apply the full free var transformation on a term.
 pub fn transform(rt: &mut RichTerm) {
-    rt.collect_free_vars(&mut HashSet::new())
+    rt.collect_free_vars(&mut HashSet::default())
 }
 
 pub trait CollectFreeVars {
@@ -40,7 +41,7 @@ impl CollectFreeVars for RichTerm {
             | Term::Import(_)
             | Term::ResolvedImport(_) => (),
             Term::Fun(id, t) => {
-                let mut fresh = HashSet::new();
+                let mut fresh = HashSet::default();
 
                 t.collect_free_vars(&mut fresh);
                 fresh.remove(id);
@@ -48,7 +49,7 @@ impl CollectFreeVars for RichTerm {
                 free_vars.extend(fresh);
             }
             Term::FunPattern(id, dest_pat, body) => {
-                let mut fresh = HashSet::new();
+                let mut fresh = HashSet::default();
 
                 body.collect_free_vars(&mut fresh);
                 bind_pattern(dest_pat, &mut fresh);
@@ -59,7 +60,7 @@ impl CollectFreeVars for RichTerm {
                 free_vars.extend(fresh);
             }
             Term::Let(id, t1, t2, attrs) => {
-                let mut fresh = HashSet::new();
+                let mut fresh = HashSet::default();
 
                 if attrs.rec {
                     t1.collect_free_vars(&mut fresh);
@@ -73,7 +74,7 @@ impl CollectFreeVars for RichTerm {
                 free_vars.extend(fresh);
             }
             Term::LetPattern(id, dest_pat, t1, t2) => {
-                let mut fresh = HashSet::new();
+                let mut fresh = HashSet::default();
 
                 t1.collect_free_vars(free_vars);
                 t2.collect_free_vars(&mut fresh);
@@ -112,7 +113,7 @@ impl CollectFreeVars for RichTerm {
             }
             Term::RecRecord(record, dyn_fields, deps) => {
                 let rec_fields: HashSet<Ident> = record.fields.keys().cloned().collect();
-                let mut fresh = HashSet::new();
+                let mut fresh = HashSet::default();
                 let mut new_deps = RecordDeps {
                     stat_fields: HashMap::with_capacity(record.fields.len()),
                     dyn_fields: Vec::with_capacity(dyn_fields.len()),

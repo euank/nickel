@@ -60,10 +60,12 @@ use crate::{
     {mk_uty_arrow, mk_uty_enum, mk_uty_enum_row, mk_uty_record, mk_uty_row},
 };
 
-use std::{
-    collections::{HashMap, HashSet},
-    convert::TryInto,
+use rustc_hash::{
+    FxHashMap as HashMap,
+    FxHashSet as HashSet,
 };
+
+use std::convert::TryInto;
 
 use self::linearization::{Linearization, Linearizer, StubHost};
 
@@ -728,14 +730,14 @@ pub fn type_check_linearize<LL>(
 where
     LL: Linearizer<CompletionExtra = Extra>,
 {
-    let (mut table, mut names) = (UnifTable::new(), HashMap::new());
+    let (mut table, mut names) = (UnifTable::new(), HashMap::default());
     let mut wildcard_vars = Vec::new();
 
     {
         let mut state: State = State {
             resolver,
             table: &mut table,
-            constr: &mut RowConstr::new(),
+            constr: &mut RowConstr::default(),
             names: &mut names,
             wildcard_vars: &mut wildcard_vars,
         };
@@ -2373,7 +2375,7 @@ impl ConstrainFreshRRowsVar for UnifRecordRows {
             }
         }
 
-        constrain_var(state, HashSet::new(), self, var_id);
+        constrain_var(state, HashSet::default(), self, var_id);
     }
 }
 
@@ -2455,7 +2457,7 @@ impl ConstrainFreshERowsVar for UnifEnumRows {
             }
         }
 
-        constrain_var(state, HashSet::new(), self, var_id);
+        constrain_var(state, HashSet::default(), self, var_id);
     }
 }
 

@@ -1,11 +1,17 @@
 //! An environment for storing variables with scopes.
+
 use std::cell::RefCell;
-use std::collections::{hash_map, HashMap};
+use std::collections::hash_map;
 use std::hash::Hash;
 use std::iter::FromIterator;
 use std::marker::PhantomData;
 use std::ptr::NonNull;
 use std::rc::Rc;
+
+use crate::util::HashMapExt;
+
+use rustc_hash::FxHashMap as HashMap;
+
 
 /// An environment as a linked-list of hashmaps.
 ///

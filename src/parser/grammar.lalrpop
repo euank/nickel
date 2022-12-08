@@ -35,11 +35,11 @@
 //! corresponding more precise return type. Other rules that produce or just
 //! propagate general uniterms have to return a `UniTerm`.
 use std::{
-    collections::HashMap,
     ffi::OsString,
     convert::TryFrom,
 };
 
+use rustc_hash::{FxHashMap as HashMap};
 use codespan::FileId;
 use lalrpop_util::ErrorRecovery;
 
@@ -52,6 +52,7 @@ use super::{
 };
 
 use crate::{
+    util::HashMapExt,
     mk_app,
     mk_opn,
     mk_fun,

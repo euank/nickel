@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use rustc_hash::FxHashMap as HashMap;
 
 use codespan::ByteIndex;
 use nickel_lang::{term::MetaValue, typecheck::linearization::LinearizationState};

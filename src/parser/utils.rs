@@ -1,15 +1,16 @@
 //! Various helpers and companion code for the parser are put here to keep the grammar definition
 //! uncluttered.
 use std::collections::hash_map::Entry;
-use std::collections::HashMap;
 use std::fmt::Debug;
 use std::rc::Rc;
 
 use codespan::FileId;
+use rustc_hash::FxHashMap as HashMap;
 
 use super::error::ParseError;
 
 use crate::{
+    util::HashMapExt,
     destruct::Destruct,
     eval::operation::PushPriority,
     identifier::Ident,

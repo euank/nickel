@@ -1,7 +1,6 @@
 //! Helpers to convert a `TypeWrapper` to a human-readable `Types` representation for error
 //! reporting.
 use super::*;
-use std::collections::HashSet;
 
 /// A name registry used to replace unification variables and type constants with human-readable
 /// and distinct names.
@@ -15,8 +14,8 @@ pub struct NameReg {
 impl NameReg {
     pub fn new() -> Self {
         NameReg {
-            reg: HashMap::new(),
-            taken: HashSet::new(),
+            reg: HashMap::default(),
+            taken: HashSet::default(),
             var_count: 0,
             cst_count: 0,
         }

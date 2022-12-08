@@ -10,7 +10,10 @@ use serde::{
     ser::{Error, Serialize, SerializeMap, SerializeSeq, Serializer},
 };
 
-use std::{collections::HashMap, fmt, io, rc::Rc, str::FromStr};
+use rustc_hash::FxHashMap as HashMap;
+
+use std::{fmt, io, rc::Rc, str::FromStr};
+
 
 /// Available export formats.
 // If you add or remove variants, remember to update the CLI docs in `src/bin/nickel.rs'

@@ -1,12 +1,12 @@
 //! Deserialization of an evaluated program to plain Rust types.
 
-use std::collections::HashMap;
 use std::iter::ExactSizeIterator;
 
 use serde::de::{
     Deserialize, DeserializeSeed, EnumAccess, IntoDeserializer, MapAccess, SeqAccess,
     VariantAccess, Visitor,
 };
+use rustc_hash::FxHashMap as HashMap;
 
 use crate::identifier::Ident;
 use crate::term::array::{self, Array};

@@ -57,10 +57,10 @@ use crate::{
     term::{record::RecordData, RichTerm, Term, TraverseOrder},
 };
 
-use std::{
-    collections::HashMap,
-    fmt::{self, Display},
-};
+use std::fmt::{self, Display};
+
+use rustc_hash::FxHashMap as HashMap;
+
 
 /// A record row, mapping an identifier to a type. A record type is a dictionary mapping
 /// identifiers to Nickel type. Record types are represented as sequences of `RecordRowF`, ending
@@ -681,7 +681,7 @@ impl EnumRows {
     fn subcontract(&self) -> Result<RichTerm, UnboundTypeVariableError> {
         use crate::stdlib::contract;
 
-        let mut cases = HashMap::new();
+        let mut cases = HashMap::default();
         let mut has_tail = false;
         let value_arg = Ident::from("x");
         let label_arg = Ident::from("l");
@@ -748,7 +748,7 @@ impl RecordRows {
         // We begin by building a record whose arguments are contracts
         // derived from the types of the statically known fields.
         let mut rrows = self;
-        let mut fcs = HashMap::new();
+        let mut fcs = HashMap::default();
 
         while let RecordRowsF::Extend {
             row: RecordRowF { id, types: ty },
@@ -815,7 +815,7 @@ impl Types {
     /// contract must then be applied using the `Assume` primitive operation.
     pub fn contract(&self) -> Result<RichTerm, UnboundTypeVariableError> {
         let mut sy = 0;
-        self.subcontract(HashMap::new(), true, &mut sy)
+        self.subcontract(HashMap::default(), true, &mut sy)
     }
 
     /// Return the contract corresponding to a subtype.

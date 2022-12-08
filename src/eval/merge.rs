@@ -52,6 +52,7 @@
 //! - *Contract check*: merging a `Contract` or a `ContractDefault` with a simple value `t`
 //! evaluates to a contract check, that is an `Assume(..., t)`
 use super::*;
+use crate::util::HashMapExt;
 use crate::error::{EvalError, IllegalPolymorphicTailAction};
 use crate::label::Label;
 use crate::position::TermPos;
@@ -61,7 +62,7 @@ use crate::term::{
     Term,
 };
 use crate::transform::Closurizable;
-use std::collections::HashMap;
+use rustc_hash::FxHashMap as HashMap;
 
 /// Merging mode. Merging is used both to combine standard data and to apply contracts defined as
 /// records.
@@ -628,7 +629,8 @@ fn revert_closurize(rt: RichTerm, env: &mut Environment, local_env: &Environment
 }
 
 pub mod hashmap {
-    use std::collections::HashMap;
+    use crate::util::HashMapExt;
+    use rustc_hash::FxHashMap as HashMap;
 
     pub struct SplitResult<K, V1, V2> {
         pub left: HashMap<K, V1>,

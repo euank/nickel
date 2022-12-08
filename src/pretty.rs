@@ -4,7 +4,7 @@ use crate::term::{BinaryOp, MetaValue, RichTerm, Term, UnaryOp};
 use crate::types::{EnumRows, EnumRowsF, RecordRowF, RecordRows, RecordRowsF, TypeF, Types};
 pub use pretty::{DocAllocator, DocBuilder, Pretty};
 use regex::Regex;
-use std::collections::HashMap;
+use rustc_hash::FxHashMap as HashMap;
 
 /// Helper to find the min number of `%` sign needed to interpolate a string containing this chunk.
 fn min_interpolate_sign(text: &str) -> usize {

@@ -114,7 +114,8 @@ impl AsRef<str> for Ident {
 }
 
 mod interner {
-    use std::collections::HashMap;
+    use rustc_hash::FxHashMap as HashMap;
+    use crate::util::HashMapExt;
     use std::sync::{Mutex, RwLock};
 
     use typed_arena::Arena;

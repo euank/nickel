@@ -19,6 +19,7 @@
 use array::Array;
 
 use crate::{
+    util::HashMapExt,
     destruct::Destruct,
     error::ParseError,
     eval::EvalMode,
@@ -33,9 +34,13 @@ use codespan::FileId;
 
 use serde::{Deserialize, Serialize};
 
+use rustc_hash::{
+    FxHashMap as HashMap,
+    FxHashSet as HashSet,
+};
+
 use std::{
     cmp::{Ordering, PartialOrd},
-    collections::{HashMap, HashSet},
     ffi::OsString,
     fmt,
     ops::Deref,
@@ -421,7 +426,8 @@ impl ArrayAttrs {
 pub mod record {
     use super::{RecordAttrs, RichTerm, SealingKey};
     use crate::{identifier::Ident, label::Label};
-    use std::collections::HashMap;
+
+    use rustc_hash::FxHashMap as HashMap;
 
     /// The base structure of a Nickel record.
     ///
@@ -1990,7 +1996,7 @@ pub mod make {
     macro_rules! mk_record {
         ( $( ($id:expr, $body:expr) ),* ) => {
             {
-                let mut fields = std::collections::HashMap::new();
+                let mut fields = rustc_hash::FxHashMap::default();
                 $(
                     fields.insert($id.into(), $body.into());
                 )*
@@ -2007,7 +2013,7 @@ pub mod make {
     macro_rules! mk_switch {
         ( $exp:expr, $( ($id:expr, $body:expr) ),* ; $default:expr ) => {
             {
-                let mut map = std::collections::HashMap::new();
+                let mut map = rustc_hash::FxHashMap::default();
                 $(
                     map.insert($id.into(), $body.into());
                 )*
@@ -2015,7 +2021,7 @@ pub mod make {
             }
         };
         ( $exp:expr, $( ($id:expr, $body:expr) ),*) => {
-                let mut map = std::collections::HashMap::new();
+                let mut map = rustc_hash::FxHashMap::default();
                 $(
                     map.insert($id.into(), $body.into());
                 )*
